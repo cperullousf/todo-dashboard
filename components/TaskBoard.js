@@ -42,7 +42,7 @@ export default function TaskBoard() {
             <h1 className="text-3xl font-bold mb-6 text-center">
                 My Task Dashboard
             </h1>
-            <AddTaskForm />
+            <AddTaskForm onAddTask={addTask} />
         </div>
     );
 }
