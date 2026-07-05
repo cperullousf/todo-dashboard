@@ -1,7 +1,9 @@
+import TaskBoard from "@/components/TaskBoard";
+
 export default function Home() {
-  return (
-    <main>
-      <h1>Task Dashboard</h1>
-    </main>
-  );
+    return (
+        <main className="min-h-screen bg-slate-900 flex justify-center items-start p-10">
+            <TaskBoard />
+        </main>
+    );
 }
