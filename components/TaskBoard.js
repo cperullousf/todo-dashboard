@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTaskForm from "./AddTaskForm";
 import TaskList from "./TaskList";
 import TaskStats from "./TaskStats";
@@ -18,13 +18,39 @@ child components need access to the same task data.
 */
 
 export default function TaskBoard() {
-    // The task list is stored in state because it changes over time
-    // and multiple child components depend on it.
+    // Tasks start as an empty array so the initial server render
+    // matches the first client render. Saved tasks are loaded after
+    // the component mounts.
     const [tasks, setTasks] = useState([]);
     // The current filter is stored in state because it changes
     // in response to user interaction and determines which tasks
     // are displayed.
     const [filter, setFilter] = useState("all");
+
+    // Read any previously saved tasks after the component mounts.
+    // localStorage is only available in the browser, so this work
+    // is performed inside useEffect rather than during rendering.
+    useEffect(() => {
+
+        const savedTasks = localStorage.getItem("tasks");
+
+        if (savedTasks) {
+            setTasks(JSON.parse(savedTasks));
+        }
+
+    }, []);
+    // Synchronize the current task state with localStorage so the
+    // user's tasks persist after a browser refresh. The dependency
+    // array contains only 'tasks' because that is the only value
+    // being written to storage.
+    useEffect(() => {
+
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(tasks)
+        );
+
+    }, [tasks]);
     function addTask(taskText) {
 
     // Ignore blank or whitespace-only submissions.
