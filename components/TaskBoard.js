@@ -20,6 +20,10 @@ export default function TaskBoard() {
     // The task list is stored in state because it changes over time
     // and multiple child components depend on it.
     const [tasks, setTasks] = useState([]);
+    // The current filter is stored in state because it changes
+    // in response to user interaction and determines which tasks
+    // are displayed.
+    const [filter, setFilter] = useState("all");
     function addTask(taskText) {
 
     // Ignore blank or whitespace-only submissions.
@@ -61,14 +65,54 @@ export default function TaskBoard() {
     );
 
 }
+    // This value is derived from existing state rather than
+    // stored separately. Keeping derived data out of state
+    // avoids duplicate sources of truth.
+    const filteredTasks = tasks.filter((task) => {
+
+    if (filter === "active") {
+        return !task.completed;
+    }
+
+    if (filter === "done") {
+        return task.completed;
+    }
+
+    return true;
+
+    });
     return (
         <div className="bg-slate-800 text-white p-8 rounded-xl w-full max-w-2xl">
             <h1 className="text-3xl font-bold mb-6 text-center">
                 My Task Dashboard
             </h1>
             <AddTaskForm onAddTask={addTask} />
+            <div className="flex justify-center gap-3 mb-6">
+
+                <button
+                    onClick={() => setFilter("all")}
+                    className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded"
+                >
+                    All
+                </button>
+
+                <button
+                    onClick={() => setFilter("active")}
+                    className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded"
+                >
+                    Active
+                </button>
+
+                <button
+                    onClick={() => setFilter("done")}
+                    className="bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded"
+                >
+                    Done
+                </button>
+
+            </div>
             <TaskList
-                tasks={tasks}
+                tasks={filteredTasks}
                 onToggle={toggleTask}
                 onDelete={deleteTask}
             />
