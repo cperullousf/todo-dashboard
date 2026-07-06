@@ -23,14 +23,20 @@ export default function TaskList({ tasks, onToggle, onDelete }) {
                 task. Each TaskCard receives the data it needs from
                 TaskBoard through props. */}
 
-            {tasks.map((task) => (
-                <TaskCard
-                    key={task.id}
-                    task={task}
-                    onToggle={onToggle}
-                    onDelete={onDelete}
-                />
-            ))}
+            {tasks.length === 0 ? (
+                <p className="text-center text-gray-400 py-6">
+                    No tasks to display.
+                </p>
+            ) : (
+                tasks.map((task) => (
+                    <TaskCard
+                        key={task.id}
+                        task={task}
+                        onToggle={onToggle}
+                        onDelete={onDelete}
+                    />
+                ))
+            )}
 
         </div>
     );

@@ -138,7 +138,7 @@ export default function TaskBoard() {
                 completed={completedTasks}
                 onClearCompleted={clearCompleted}
             />
-            <div className="flex justify-center gap-3 mb-6">
+            <div className="bg-slate-700 rounded-lg p-4 mb-6 flex justify-center gap-3">
 
                 <button
                     onClick={() => setFilter("all")}
